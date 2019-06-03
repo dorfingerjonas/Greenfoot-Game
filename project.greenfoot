@@ -1,5 +1,5 @@
 #Greenfoot project file
-class.Car.image=car-top.png
+class.Car.image=car-right.png
 class.Coin.image=coin.png
 class.Fuel.image=fuel.png
 class.Street.image=cell.jpg

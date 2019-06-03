@@ -1,37 +1,42 @@
 import greenfoot.*;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Car extends Actor {
     private int coinsCollected;
+    private int coinsSpawned = Street.numberofCoins;
 
     public Car() {
         coinsCollected = 0;
     }
-
+    
     public void act() {
         if (foundCoin()) {
             collectCoin();
         }
-        else if (canMove()) {
-            collect();
+        
+        if (Greenfoot.isKeyDown("right")) {
+            turnRight();
+            Greenfoot.delay(1);
         }
-        else {
+        
+        if (Greenfoot.isKeyDown("left")) {
             turnLeft();
+            Greenfoot.delay(1);
         }
-    }
-    
-    public void collect() {
-        if (getY() >= 5) {
-            goToX0();
-            moveUp();
-        } else {
-            goToX0();
+        
+        if (Greenfoot.isKeyDown("up") && canMove()) {
+            move(1);
+        }
+        
+        if (coinsSpawned == 0) {
+            Street street = new Street();
+            street.refillStreetWithCoins();
+            System.out.println("refilled");
         }
     }
     
     public void goToX0() {
-    for(int i = 0; i < getX(); i++) {
+        for(int i = 0; i < getX(); i++) {
             if (getRotation() == 0) {
                 turnLeft();
                 turnLeft();
@@ -40,27 +45,8 @@ public class Car extends Actor {
             } else if (getRotation() == 270) {
                 turnRight();
             }
-            move();
-    }    
-}
-
-    public void moveUp() {
-    turnRight();
-    move();
-    turnRight();
-    for(int i = 0; i <= 10; i++) {
-        move();
-    }
-    turnLeft();
-    move();
-    turnLeft();
-    for(int i = 0; i <= 10; i++) {
-        move();
-    }
-}
-  
-    public void move() {
-        move(1);
+            move(1);
+        }    
     }
     
     public void turnLeft() {
@@ -80,8 +66,9 @@ public class Car extends Actor {
         Actor coin = getOneObjectAtOffset(0, 0, Coin.class);
         if (coin != null) {
             getWorld().removeObject(coin);
-            getCoinscollecten();
+            System.out.println("Coins collected: " + getCoinscollecten());
         }
+        coinsSpawned--;
     }
     
     public void setDirection(int direction) {
@@ -90,9 +77,6 @@ public class Car extends Actor {
         }
     }
     
-    /**
-     * Test if we can move forward. Return true if we can, false otherwise.
-     */
     public boolean canMove() {
         int rotation = getRotation();
         int x = getX();
@@ -119,7 +103,6 @@ public class Car extends Actor {
 
     public int getCoinscollecten() {
         coinsCollected++;
-        System.out.println("Coins collected: " + coinsCollected);
         return coinsCollected;
     }
 }

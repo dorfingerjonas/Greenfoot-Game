@@ -1,10 +1,9 @@
 import greenfoot.*;
 
 public class Street extends World {
-    /**
-     * Create a new world with 10x10 cells and
-     * with a cell size of 60x60 pixels.
-     */
+    
+    public static int numberofCoins = 0;
+    
     public Street() {
         super(15, 15, 60);        
         setBackground("cell.jpg");
@@ -12,16 +11,28 @@ public class Street extends World {
     }
     
     public void populate() {
-        addObject(new Car(), 7, 1);
-        randomLeaves(10);
+        addObject(new Car(), 0, 0);
+        randomCoins(15);
+        numberofCoins += 15;
     }
        
-    public void randomLeaves(int howMany) {
-        for (int i=0; i < howMany; i++) {
+    public void randomCoins(int howMany) {
+        for (int i = 0; i < howMany; i++) {
             Coin coin = new Coin();
             int x = Greenfoot.getRandomNumber(getWidth());
             int y = Greenfoot.getRandomNumber(getHeight());
             addObject(coin, x, y);
         }
+        numberofCoins += howMany;
+    }
+    
+    public void refillStreetWithCoins() {
+        for (int i = 0; i < 15; i++) {
+            Coin coin = new Coin();
+            int x = Greenfoot.getRandomNumber(getWidth());
+            int y = Greenfoot.getRandomNumber(getHeight());
+            addObject(coin, x, y);
+        }
+        numberofCoins += 15;
     }
 }
